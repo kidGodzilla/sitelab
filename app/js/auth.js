@@ -1,7 +1,6 @@
 /**
- * Registration / Auth for App
+ * Registration / Auth / Passwd reset for the App
  */
-
 (function () {
 
     // Firebase-safe-key version of the host
@@ -28,50 +27,6 @@
         form.submit();
     }
 
-    function getSitesObj (userID) {
-        userID = userID || App.get('userID');
-        var specificRef = new Firebase("https://sitelab.firebaseio.com/users/" + userID);
-
-        specificRef.on("value", function (snapshot) {
-            var host = App.get('host');
-            var pathname = App.get('pathname');
-            var sitesObj = snapshot.val();
-            App.set('sitesObj', sitesObj);
-            if (sitesObj && sitesObj.sites && sitesObj.sites[host] && sitesObj.sites[host][pathname] && sitesObj.sites[host][pathname].token) {
-                var pageToken = sitesObj.sites[host][pathname].token;
-                App.set('pageToken', pageToken);
-            }
-        }, function (errorObject) {
-            console.log("The read failed: " + errorObject.code);
-        });
-    }
-
-    App.registerGlobal('getSitesObj', getSitesObj);
-
-    App.registerGlobal('checkForUpdate', function () {
-        var ref = new Firebase("https://sitelab.firebaseio.com/users/" + App.get('userID') + "/pages/" + App.get('host') + "/" + App.get('pathname'));
-        ref.limitToLast(1).on("child_added", function(snapshot) {
-            var ts = snapshot.key();
-            var lastUpdated = $$('body').attr('data-last-updated') || 0;
-            var hasCheckedForUpdate = App.get('hasCheckedForUpdate');
-            if (ts && ts > lastUpdated && typeof(AppIsDraft) !== "boolean" && !hasCheckedForUpdate) {
-                console.log('unpublished version available from: ', ts);
-
-                var search = window.location.search;
-                if (search.indexOf('&draft') === -1)
-                    search += "&draft";
-                history.replaceState('redirect', 'redirect', window.location.pathname + search);
-
-                redirectWithPOST(ts);
-            } else if (typeof(AppIsDraft) === "boolean" && AppIsDraft) {
-                App.showPublishButton();
-            }
-
-        });
-        App.set('hasCheckedForUpdate', true);
-        return true;
-    });
-
     App.registerGlobal('auth', function (callback, force) {
 
         // IF we have a callback
@@ -90,7 +45,6 @@
             var userID = authData.uid;
             App.set('userID', authData.uid);
             App.set('userEmail', authData.password.email);
-            getSitesObj(userID);
             if (callback && typeof(callback) === "function")
                 callback();
         } else {
@@ -123,7 +77,6 @@
                             var userID = authData.uid;
                             App.set('userID', authData.uid);
                             App.set('userEmail', authData.password.email);
-                            getSitesObj(userID);
                             if (callback && typeof(callback) === "function") callback();
                         }
                     });
@@ -234,5 +187,6 @@
     });
 })();
 
+// Require the login for all visitors
 var firebaseRef = new Firebase("https://sitelab.firebaseio.com");
 App.auth();
