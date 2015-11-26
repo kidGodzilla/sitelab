@@ -89,27 +89,27 @@
          * Firebase (v2.2.1)
          * A document database in the cloud
          */
-        //loadScript(protocol + "cdn.firebase.com/js/client/2.2.1/firebase.js");
+        loadScript(protocol + "cdn.firebase.com/js/client/2.2.1/firebase.js");
 
 
         /**
          * Hubspot Messenger
          * A lightweight, beautiful notification library
          */
-        //loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/messenger/1.4.0/css/messenger.css");
-        //loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/messenger/1.4.0/css/messenger-theme-air.css");
-        //loadScriptAsync(protocol + "cdnjs.cloudflare.com/ajax/libs/messenger/1.4.0/js/messenger.min.js");
-        //document.write("<script>Messenger.options = { extraClasses: 'messenger-fixed messenger-on-top messenger-on-right', theme: 'air'};</script>");
+        loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/messenger/1.4.0/css/messenger.css");
+        loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/messenger/1.4.0/css/messenger-theme-air.css");
+        loadScript(protocol + "cdnjs.cloudflare.com/ajax/libs/messenger/1.4.0/js/messenger.min.js");
+        document.write("<script>Messenger.options = { extraClasses: 'messenger-fixed messenger-on-top messenger-on-right', theme: 'air'};</script>");
 
 
         /**
          * Hubspot Vex
          * A lightweight, beautiful message window library, vex is a drop-in replacement for alert, confirm, and more.
          */
-        //loadStylesheet("http://wpages.co/wpce/vex.css");
-        //loadStylesheet("http://wpages.co/wpce/vex-theme-default.css");
-        //loadScript("http://wpages.co/wpce/vex.combined.min.js");
-        //document.write("<script>vex.defaultOptions.className = 'vex-theme-default';</script>");
+        loadStylesheet("http://wpages.co/old/wpce/vex.css");
+        loadStylesheet("http://wpages.co/old/wpce/vex-theme-default.css");
+        loadScript("http://wpages.co/old/wpce/vex.combined.min.js");
+        document.write("<script>vex.defaultOptions.className = 'vex-theme-default';</script>");
 
 
 
@@ -126,108 +126,6 @@
 
 
 
-        /**************************************************************
-         * BOOTSTRAP AND BOOTSWATCH THEMES
-         * ************************************************************
-         */
-
-        /**
-         * Twitter Bootstrap (v3.3.4)
-         * This is vanilla bootstrap.
-         * It is not a required dependency when using a bootstrap or bootswatch theme.
-         */
-        //loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css");
-        //loadScriptAsync(protocol + "cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js");
-
-
-        /**
-         * Bootstrap (Bootswatch Yeti theme)
-         * A friendly foundation
-         *
-         * See: https://bootswatch.com/yeti/
-         */
-        //loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/yeti/bootstrap.min.css");
-        //loadScriptAsync(protocol + "cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js");
-
-
-        /**
-         * Bootstrap (Bootswatch Cosmo theme)
-         * An ode to Metro
-         *
-         * See: https://bootswatch.com/cosmo/
-         */
-        //loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/cosmo/bootstrap.min.css");
-        //loadScriptAsync(protocol + "cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js");
-
-
-        /**
-         * Bootstrap (Bootswatch Darkly theme)
-         * Flatly in night mode
-         *
-         * See: https://bootswatch.com/darkly/
-         */
-        //loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/darkly/bootstrap.min.css");
-        //loadScriptAsync(protocol + "cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js");
-
-
-        /**
-         * Bootstrap (Bootswatch Flatly theme)
-         * Flat and modern
-         *
-         * See: https://bootswatch.com/flatly/
-         */
-        //loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/flatly/bootstrap.min.css");
-        //loadScriptAsync(protocol + "cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js");
-
-
-        /**
-         * Bootstrap (Bootswatch Lumen theme)
-         * Light and Shadow
-         *
-         * See: https://bootswatch.com/lumen/
-         */
-        //loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/lumen/bootstrap.min.css");
-        //loadScriptAsync(protocol + "cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js");
-
-
-        /**
-         * Bootstrap (Bootswatch Paper theme)
-         * Material is the metaphor
-         *
-         * See: https://bootswatch.com/paper/
-         */
-        //loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/paper/bootstrap.min.css");
-        //loadScriptAsync(protocol + "cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js");
-
-
-        /**
-         * Bootstrap (Bootswatch Sandstone theme)
-         * A touch of warmth
-         *
-         * See: https://bootswatch.com/sandstone/
-         */
-        //loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/sandstone/bootstrap.min.css");
-        //loadScript(protocol + "cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js");
-
-
-        /**
-         * Bootstrap (Bootswatch Superhero theme)
-         * The brave and the blue
-         *
-         * See: https://bootswatch.com/sandstone/
-         */
-        //loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/superhero/bootstrap.min.css");
-        //loadScript(protocol + "cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js");
-
-
-        /**
-         * Bootstrap (Bootswatch United theme)
-         * Ubuntu orange and a unique font
-         *
-         * See: https://bootswatch.com/united/
-         */
-        //loadStylesheet(protocol + "cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/united/bootstrap.min.css");
-        //loadScriptAsync(protocol + "cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js");
 
 
 
