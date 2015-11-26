@@ -1,6 +1,6 @@
 {
   "firebase": "sitelab",
-  "public": "public",
+  "public": "./",
   "ignore": [
     "firebase.json",
     "**/.*",
