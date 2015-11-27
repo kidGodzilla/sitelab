@@ -75,7 +75,24 @@ var labs = [];
     siteLabsRef.on("child_added", function(snapshot, prevChildKey) {
         var value = snapshot.val();
         sitelabs.push(value);
+
+        if (!siteLabName && !labName && !pageName) {
+            // Create a list of sitelabs
+            var tmpp = "";
+            var templt = '<li><a href="{{url}}">{{name}}</a></li>';
+
+            sitelabs.forEach(function (item) {
+                var nom = item.name;
+                var dasherizedNom = _.kebabCase(nom);
+                var sitelabURL = "/" + dasherizedNom;
+                tmpp += templt.replace('{{url}}', sitelabURL).replace('{{name}}', nom);
+            });
+
+            $('#article-container ul').html(tmpp);
+        }
     });
+
+
 
     siteLabsRef.once("value", function(snapshot) {
         if (snapshot.exists()) {
@@ -164,20 +181,30 @@ var labs = [];
 
         $('#sidenav').html(temp);
         App.bindSidebar();
+        App.displayTableOfContents();
     });
 
-    // Display Table of Contents
-    if (!labName || labName === "") {
-        setTimeout(function () {
+    // Display Table of Contents as a Sitelab Homepage
+    App.registerGlobal('displayTableOfContents', function () {
+
+        // Display Table of Contents
+        if (siteLabName && !labName && !pageName) {
             var sidenav = $('#sidenav').html();
             $('#article-container').html("<h1>Contents</h1><ol>" + sidenav + "</ol>");
             $('#article-container ol .create-lab, #article-container ol .create-page').each(function () {
                 $(this).parent().remove();
             });
-        }, 1000);
-    }
+        }
+    });
 
     $(document).ready(function () {
+        // Display a list of Sitelabs
+        if (!siteLabName && !labName && !pageName) {
+            var sidenav = $('#sidenav').html();
+            $('#article-container').html("<h1>Sitelabs</h1><ul></ul>");
+        }
+
+
         $('#switch-labs').on('click', '.create-site', function () {
             var siteName = "";
 
