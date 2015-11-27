@@ -69,7 +69,32 @@
         editor = ContentTools.EditorApp.get();
         editor.init('*[data-editable]', 'data-name');
 
-    });
+        editor.bind('save', function (regions) {
+            var name, payload, xhr;
 
+            // Set the editor as busy while we save our changes
+            this.busy(true);
+
+            // Collect the contents of each region into a FormData instance
+            payload = new FormData();
+            for (name in regions) {
+                if (regions.hasOwnProperty(name)) {
+                    payload.append(name, regions[name]);
+                }
+            }
+
+            if (regions.article) {
+                var data = regions.article;
+                // console.log(data);
+                new ContentTools.FlashUI('ok');
+
+                firebaseRef.child('sitelabs/' + siteLabName + '/labs/' + labName + '/pages/' + pageName).set({
+                    contents: data
+                });
+            }
+
+            this.busy(false);
+        });
+    });
 
 })();
