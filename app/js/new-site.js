@@ -91,11 +91,6 @@ var labs = [];
         }
     });
 
-    //    .on("child_added", function(snapshot, prevChildKey) {
-    //    introductionContent = snapshot.val();
-    //    $('#article-container').html(introductionContent);
-    //});
-
     // Build the left sidebar
     var labsRef = firebaseRef.child('sitelabs/' + siteLabName + '/labs/');
 
@@ -105,33 +100,37 @@ var labs = [];
 
         // Rebuild menu
         var temp = "<li><a href=\"#\">Home</a></li>\n";
-        var classNames = "active";
+        var classNames = "";
 
         labs.forEach(function (item) {
             var name = item.name;
-            //var dasherizedName = _.kebabCase(name);
+            var dasherizedName = _.kebabCase(name);
+            var thisLabName = dasherizedName;
             var url = '#';
             var template = '<li><a href="{{url}}" class="{{class}}">{{name}}</a>';
+
+            // Set the active class for the current lab (category)
+            classNames = labName === dasherizedName ? "active" : "";
             temp += template.replace('{{url}}', url).replace('{{name}}', name).replace('{{class}}', classNames);
-            classNames = "";
 
             // Create UL
             temp += '<ul>';
 
             // Add List Items
             if (item.pages) {
-                for (var page in item.pages) {
-                    if (item.pages.hasOwnProperty(page)) {
-                        var pageName = page;
-                        var dasherizedName = _.kebabCase(pageName);
-                        var url = '/' + siteLabName + '/' + labName + '/' + dasherizedName;
-                        var template = '<li><a href="{{url}}">{{name}}</a>';
-                        temp += template.replace('{{url}}', url).replace('{{name}}', pageName);
+                for (var pageKey in item.pages) {
+                    if (item.pages.hasOwnProperty(pageKey)) {
+                        var page = item.pages[pageKey];
+                        var pageName = page.name;
+                        var dasherizedPageName = _.kebabCase(pageName);
+                        var pageUrl = '/' + siteLabName + '/' + thisLabName + '/' + dasherizedPageName;
+                        var pageTemplate = '<li><a href="{{url}}">{{name}}</a>';
+                        temp += pageTemplate.replace('{{url}}', pageUrl).replace('{{name}}', pageName);
                     }
                 }
             }
 
-            temp += '<li><a href="#" class="create-page" style="color: #2196f3">+ New Page</a></li>';
+            temp += '<li><a href="#" class="create-page" data-labname="'+thisLabName+'" style="color: #2196f3">+ New Page</a></li>';
             temp += '</ul>';
             temp += '</li>';
         });
@@ -190,10 +189,12 @@ var labs = [];
                             text: "Your Sitelab: `" + inputValue + "` has been created.",
                             type: "success"
                         }, function () {
+
                             // Redirect to the newly-created Sitelab
                             window.location.href = "/" + dasherizedSiteName + "/sitelab/introduction";
                         });
                     } else {
+
                         // Annoy the user by telling them the site name has already been taken
                         swal("Sorry!", "This name is already being used by another user.", "error");
                     }
@@ -239,10 +240,66 @@ var labs = [];
                             text: "Category: `" + inputValue + "` has been created.",
                             type: "success"
                         }, function () {
+
                             // Redirect to the newly-created lab
-                            // window.location.href = "/" + dasherizedSiteName + "/sitelab/introduction";
+                            // window.location.href = "/" + dasherizedSiteName + "/sitelab/introduction"; // Turns out we don't need to :)
                         });
                     } else {
+
+                        // Annoy the user by telling them the lab name has already been taken
+                        swal("Sorry!", "This name is already being used.", "error");
+                    }
+                });
+
+
+            });
+        });
+
+        $('#sidenav').on('click', '.create-page', function () {
+            var pageName = "";
+
+            var thisLabName = window.thisLabName = $(this).attr('data-labname');
+
+            swal({
+                title: "Create a New Page",
+                text: "What would you like to name your new page?",
+                type: "input",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: "slide-from-top",
+                inputPlaceholder: "The Hitchhiker's Guide to Swashbuckling"
+            }, function (inputValue) {
+                if (inputValue === false) return false;
+                if (inputValue === "") {
+                    swal.showInputError("You need to give your page a name!");
+                    return false
+                }
+
+                pageName = inputValue;
+                var dasherizedPageName = _.kebabCase(pageName);
+
+                // Check to see if the sitelab exists
+                var ref = new Firebase("https://sitelab.firebaseio.com/sitelabs/" + siteLabName + '/labs/' + thisLabName + "/pages/" + dasherizedPageName);
+                ref.once("value", function(snapshot) {
+                    if (!snapshot.exists()) {
+
+                        // Create new lab
+                        ref.set({
+                            name: pageName,
+                            contents: "<h1>\n    " + pageName + "\n</h1>\n<p>\n    This is a new page. Click here to edit.\n</p>"
+                        });
+
+                        swal({
+                            title: "Nice!",
+                            text: "Page: `" + inputValue + "` has been created.",
+                            type: "success"
+                        }, function () {
+
+                            // Redirect to the newly-created page
+                             window.location.href = "/" + siteLabName + "/" + thisLabName + "/" + dasherizedPageName; // Turns out we don't need to :)
+                        });
+                    } else {
+
                         // Annoy the user by telling them the lab name has already been taken
                         swal("Sorry!", "This name is already being used.", "error");
                     }
