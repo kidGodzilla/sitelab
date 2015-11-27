@@ -77,6 +77,31 @@ var labs = [];
         sitelabs.push(value);
     });
 
+    siteLabsRef.once("value", function(snapshot) {
+        if (snapshot.exists()) {
+            var sitelabs = snapshot.val();
+
+            //console.log(sitelabs);
+
+            var tmp = "";
+
+            for (var sitelabKey in sitelabs) {
+                if (sitelabs.hasOwnProperty(sitelabKey)) {
+                    var sitelab = sitelabs[sitelabKey];
+                    var sitelabName = sitelab.name;
+                    var dasherizedSitelabName = _.kebabCase(sitelabName);
+                    var sitelabURL = '/' + dasherizedSitelabName;
+                    var sitelabLinkTemplate = '<li><a href="{{url}}">{{name}}</a>';
+                    tmp += sitelabLinkTemplate.replace('{{url}}', sitelabURL).replace('{{name}}', sitelabName);
+                }
+            }
+
+            tmp += '<li class="divider"></li><li><a href="#" class="create-site">+ New Sitelab</a></li>';
+
+            $('#switch-labs').html(tmp);
+        }
+    });
+
     // Get this page
     var pathSegments = window.location.pathname.split('/');
 
@@ -142,7 +167,7 @@ var labs = [];
     });
 
     $(document).ready(function () {
-        $('.create-site').click(function () {
+        $('#switch-labs').on('click', '.create-site', function () {
             var siteName = "";
 
             swal({
@@ -286,7 +311,7 @@ var labs = [];
                         // Create new lab
                         ref.set({
                             name: pageName,
-                            contents: "<h1>\n    " + pageName + "\n</h1>\n<p>\n    This is a new page. Click here to edit.\n</p>"
+                            contents: "<h1>\n    " + pageName + "\n</h1>\n<p>\n    This is a new page. Click the pencil in the upper-left corner to edit.\n</p>"
                         });
 
                         swal({
