@@ -119,7 +119,9 @@ var labs = [];
             temp += '<ul>';
 
             // Add List Items
-            temp += '<li><a href="#">Introduction</a></li>';
+            //temp += '<li><a href="#">Introduction</a></li>';
+
+            if (item.pages) console.log(item.pages);
 
             temp += '<li><a href="#" style="color: #2196f3">+ New Page</a></li>';
             temp += '</ul>';
