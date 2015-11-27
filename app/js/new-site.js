@@ -124,7 +124,7 @@ var labs = [];
         labs.push(value);
 
         // Rebuild menu
-        var temp = "<li><a href=\"#\">Home</a></li>\n";
+        var temp = "<li><a href=\"/" + siteLabName + "\">Home</a></li>\n";
         var classNames = "";
 
         labs.forEach(function (item) {
@@ -165,6 +165,17 @@ var labs = [];
         $('#sidenav').html(temp);
         App.bindSidebar();
     });
+
+    // Display Table of Contents
+    if (!labName || labName === "") {
+        setTimeout(function () {
+            var sidenav = $('#sidenav').html();
+            $('#article-container').html("<h1>Contents</h1><ol>" + sidenav + "</ol>");
+            $('#article-container ol .create-lab, #article-container ol .create-page').each(function () {
+                $(this).parent().remove();
+            });
+        }, 1000);
+    }
 
     $(document).ready(function () {
         $('#switch-labs').on('click', '.create-site', function () {
