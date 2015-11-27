@@ -69,8 +69,10 @@ var pageName;
                             name: siteName,
                             labs: {
                                 sitelab: {
+                                    name: 'Sitelab',
                                     pages: {
                                         introduction: {
+                                            name: 'Introduction',
                                             contents: introductionContent
                                         }
                                     }
@@ -89,6 +91,54 @@ var pageName;
                     } else {
                         // Annoy the user by telling them the site name has already been taken
                         swal("Sorry!", "This name is already being used by another user.", "error");
+                    }
+                });
+
+
+            });
+        });
+
+        $('.create-lab').click(function () {
+            var labName = "";
+            swal({
+                title: "Create a New Category",
+                text: "What would you like to name this category?",
+                type: "input",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: "slide-from-top",
+                inputPlaceholder: "Swashbuckling Ninjas"
+            }, function (inputValue) {
+                if (inputValue === false) return false;
+                if (inputValue === "") {
+                    swal.showInputError("You need to name your category something!");
+                    return false
+                }
+
+                labName = inputValue;
+                var dasherizedlabName = _.kebabCase(labName);
+
+                // Check to see if the sitelab exists
+                var ref = new Firebase("https://sitelab.firebaseio.com/sitelabs/" + siteLabName + '/labs/' + dasherizedlabName);
+                ref.once("value", function(snapshot) {
+                    if (!snapshot.exists()) {
+
+                        // Create new lab
+                        ref.set({
+                            name: labName
+                        });
+
+                        swal({
+                            title: "Nice!",
+                            text: "Category: `" + inputValue + "` has been created.",
+                            type: "success"
+                        }, function () {
+                            // Redirect to the newly-created lab
+                            // window.location.href = "/" + dasherizedSiteName + "/sitelab/introduction";
+                        });
+                    } else {
+                        // Annoy the user by telling them the lab name has already been taken
+                        swal("Sorry!", "This name is already being used.", "error");
                     }
                 });
 
